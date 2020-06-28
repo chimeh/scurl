@@ -13,18 +13,18 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: x1
+    - name: 
       run: |
         git clone --depth=1 https://github.com/curl/curl.git
         cd curl;
         ./buildconf 
-        mkdir -p $(pwd)/prefixbld
-        ./configure --prefix=$(pwd)/prefixbld --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
+        mkdir -p /prefixbld
+        ./configure --prefix=/prefixbld --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
     
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
         # Artifact name
-        name: x2
+        name: 
         # A file, directory or wildcard pattern that describes what to upload
-        path: $(pwd)/prefixbld/bin/curl
+        path: /prefixbld/bin/curl
