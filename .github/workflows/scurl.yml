@@ -7,25 +7,26 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  ci:
 
     runs-on: ubuntu-latest
-
+    env:
+      PRF_PATH:  ${PWD}/prefixbld
     steps:
     - uses: actions/checkout@v2
-    - name: build
+    - name: Build
       run: |
         git clone --depth=1 https://github.com/curl/curl.git
         cd curl;
         ./buildconf 
         PRF=$(pwd)/prefixbld
-        mkdir -p ${PRF}
-        ./configure --prefix=${PRF} --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
+        mkdir -p ${PRF_PATH}
+        ./configure --prefix=${PRF_PATH} --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
     
-    - name: Upload a Build Artifact
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         # Artifact name
         name: curl
         # A file, directory or wildcard pattern that describes what to upload
-        path: /prefixbld/bin/curl
+        path: ${PRF_PATH}
