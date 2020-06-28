@@ -21,8 +21,9 @@ jobs:
         ./buildconf 
         PRF=$(pwd)/prefixbld
         mkdir -p ${PRF_PATH}
-        ./configure --prefix=${PRF_PATH} --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
-    
+        ./configure --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
+        make -j $(getconf _NPROCESSORS_CONF)
+        make install --prefix=${PRF_PATH}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
