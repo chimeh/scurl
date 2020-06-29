@@ -28,4 +28,4 @@ jobs:
         export DOCKER_REPO=docker.io
         export DOCKER_NS=bettercode
         export DOCKER_PASS='${{ secrets.hub_docker_com_pass }}'
-        bash scripts/docker.sh
+        make docker

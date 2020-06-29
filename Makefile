@@ -24,4 +24,4 @@ build: configure
 
 
 docker:
-
+	bash ./scripts/docker.sh
