@@ -49,7 +49,7 @@ if [[ -n ${DOCKER_PASS} ]];then
   IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
 
   # Strip git ref prefix from version
-  SRC_VERSION=$(echo "$(git describe  --tags|head -n 1)" | sed -e 's,.*/\(.*\),\1,')
+  SRC_VERSION=$(echo "$(git describe  --tags --always|head -n 1)" | sed -e 's,.*/\(.*\),\1,')
   TAG=${SRC_VERSION}
 
 
