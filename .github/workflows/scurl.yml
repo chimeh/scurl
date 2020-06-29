@@ -25,7 +25,5 @@ jobs:
         
     - name: Docker push  
       run: |
-        export DOCKER_REPO=docker.io
-        export DOCKER_NS=bettercode
         export DOCKER_PASS='${{ secrets.hub_docker_com_pass }}'
         make docker
