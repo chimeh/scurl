@@ -36,8 +36,7 @@ fi
 
 docker build . --file ${DOCKERFILE} --tag imagex
 
-
-DOCKER_REPO=${DOCKER_REPO:-docker.io}
+DOCKER_REPO=${DOCKER_REPO:-registry-1.docker.io}
 DOCKER_NS=${DOCKER_NS:-bettercode}
 DOCKER_USER=${DOCKER_USER:-bettercode}
 DOCKER_PASS=${DOCKER_PASS}
