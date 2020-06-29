@@ -40,9 +40,9 @@ jobs:
       run: |
         bash
         docker build . --file Dockerfile --tag imagex
-        echo "${{ secrets.hub_docker_com_pass }}" | docker login docker.io -u ${{ github.hub_docker_com_user }} --password-stdin
+        #echo "${{ secrets.hub_docker_com_pass }}" | docker login docker.io -u ${{ github.hub_docker_com_user }} --password-stdin
+        docker login docker.io -u ${{ github.hub_docker_com_user }} --password-stdin  <<< '${{ secrets.hub_docker_com_pass }}'
         IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/${{ github.repository }}
-
         # Change all uppercase to lowercase
         IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
 
