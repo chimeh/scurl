@@ -35,7 +35,7 @@ jobs:
         bash
         docker build . --file Dockerfile --tag imagex
         
-        docker login -u ${{ secrets.hub_docker_com_user }} -p  ${{ secrets.hub_docker_com_pass }} ${DOCKER_REPO}/${DOCKER_NS}
+        docker login -u '${{ secrets.hub_docker_com_user }}' -p  '${{ secrets.hub_docker_com_pass }}' ${DOCKER_REPO}/${DOCKER_NS}
         IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/${{ github.repository }}
         # Change all uppercase to lowercase
         IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
