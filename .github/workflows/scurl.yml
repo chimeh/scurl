@@ -26,10 +26,16 @@ jobs:
         # A file, directory or wildcard pattern that describes what to upload
         path: scurl/_bin/curl
 
-    - name: Docker, Push image
+    - name: Docker login
+      uses: docker/build-push-action@v1.1.0
+      with:
+        username: ${{ github.hub_docker_com_user }}
+        password: ${{ secrets.hub_docker_com_pass }}
+        registry: docker.io
+    - name: Docker push  
       run: |
         docker build . --file Dockerfile --tag imagex
-        echo "${{ secrets.hub_docker_com_pass }}" | docker login docker.io -u ${{ github.hub_docker_com_user }} --password-stdin
+        #echo "${{ secrets.hub_docker_com_pass }}" | docker login docker.io -u ${{ github.hub_docker_com_user }} --password-stdin
         IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/${{ github.repository }}
 
         # Change all uppercase to lowercase
