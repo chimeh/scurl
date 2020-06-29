@@ -42,8 +42,8 @@ DOCKER_NS=${DOCKER_NS:-bettercode}
 DOCKER_USER=${DOCKER_USER:-bettercode}
 DOCKER_PASS=${DOCKER_PASS}
 
-if [[ "${DOCKER_PASS}" != """ ]];then
-  docker login -u "${DOCKER_USER:}" -p  "${DOCKER_PASS}" ${DOCKER_REPO}/${DOCKER_NS}
+if [[ -n ${DOCKER_PASS} ]];then
+  docker login -u "${DOCKER_USER}" -p  "${DOCKER_PASS}" ${DOCKER_REPO}/${DOCKER_NS}
   IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/$(basename ${PWD})
   # Change all uppercase to lowercase
   IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
