@@ -5,17 +5,10 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
-env:
-  # TODO: Change variable to your image's name.
-  DOCKER_REPO: docker.io
-  DOCKER_NS: bettercode
-
 jobs:
   ci:
 
     runs-on: ubuntu-latest
-    env:
-      PRF_PATH:  ${PWD}/prefixbld
     steps:
     - uses: actions/checkout@v2
     - name: Build
