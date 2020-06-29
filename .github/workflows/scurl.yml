@@ -35,7 +35,7 @@ jobs:
       with:
         username: ${{ github.hub_docker_com_user }}
         password: ${{ secrets.hub_docker_com_pass }}
-        registry: docker.io
+        registry: ${DOCKER_REPO}
     - name: Docker push  
       run: |
         docker build . --file Dockerfile --tag imagex
