@@ -17,16 +17,41 @@ jobs:
     - name: Build
       run: |
         set -x
-        git clone --depth=1 https://github.com/curl/curl.git
-        cd curl;
-        ./buildconf 
-        ./configure --disable-shared --enable-static --prefix=/tmp/curl --disable-ldap --disable-sspi --without-librtmp --disable-ftp --disable-file --disable-dict --disable-telnet --disable-tftp --disable-rtsp --disable-pop3 --disable-imap --disable-smtp --disable-gopher --disable-smb --without-libidn --disable-ares --disable-zlib  --disable-libcurl-option   --without-ssl
-        make -j $(getconf _NPROCESSORS_CONF)
-        make install
+        make
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         # Artifact name
         name: curl
         # A file, directory or wildcard pattern that describes what to upload
-        path: /tmp/curl/bin/curl
+        path: scurl/_bin/curl
+
+      - name: Docker, Push image
+        run: |
+          docker build . --file Dockerfile --tag imagex
+          echo "${{ secrets. hub_docker_com_pass }}" | docker login docker.io -u ${{ github. hub_docker_com_user }} --password-stdin
+          IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/${{ github.repository }}
+
+          # Change all uppercase to lowercase
+          IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+
+          echo IMAGE_URL=$IMAGE_URL
+          echo VERSION=$VERSION
+          TAG=${VERSION}
+
+          docker tag imagex $IMAGE_URL:${TAG}
+          docker tag imagex $IMAGE_URL:latest
+          docker push $IMAGE_URL:${TAG}
+          docker push $IMAGE_URL:latest
+          docker rmi imagex
+          docker rmi $IMAGE_URL:${TAG}
+          docker rmi $IMAGE_URL:latest
