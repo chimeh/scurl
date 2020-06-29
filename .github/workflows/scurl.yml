@@ -32,31 +32,7 @@ jobs:
         
     - name: Docker push  
       run: |
-        bash
-        docker build . --file Dockerfile --tag imagex
-        
-        docker login -u '${{ secrets.hub_docker_com_user }}' -p  '${{ secrets.hub_docker_com_pass }}' ${DOCKER_REPO}/${DOCKER_NS}
-        IMAGE_URL=${DOCKER_REPO}/${DOCKER_NS}/$(basename ${{ github.repository }})
-        # Change all uppercase to lowercase
-        IMAGE_URL=$(echo $IMAGE_URL | tr '[A-Z]' '[a-z]')
-
-        # Strip git ref prefix from version
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-        # Strip "v" prefix from tag name
-        [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-        # Use Docker `latest` tag convention
-        [ "$VERSION" == "master" ] && VERSION=latest
-
-        echo IMAGE_URL=$IMAGE_URL
-        echo VERSION=$VERSION
-        TAG=${VERSION}
-
-        docker tag imagex $IMAGE_URL:${TAG}
-        docker tag imagex $IMAGE_URL:latest
-        docker push $IMAGE_URL:${TAG}
-        docker push $IMAGE_URL:latest
-        docker rmi imagex
-        docker rmi $IMAGE_URL:${TAG}
-        docker rmi $IMAGE_URL:latest
+        export DOCKER_REPO=docker.io
+        export DOCKER_NS=bettercode
+        export DOCKER_PASS='${{ secrets.hub_docker_com_pass }}'
+        bash scripts/docker.sh

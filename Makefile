@@ -21,3 +21,7 @@ build: configure
 	mkdir -p _bin
 	DESTDIR=$$(pwd)/_dest make install-strip -C scurl
 	cp _dest/tmp/curl/bin/curl _bin/scurl
+
+
+docker:
+
